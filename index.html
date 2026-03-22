@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Les Sites de David</title>
+ <title>Les Sites de David | Développeur web</title>
+
   <meta
-    name="description"
-    content="Les Sites de David - Création de sites web modernes, portfolio, projets et contact."
-  >
+  name="description"
+  content="Les Sites de David - Développeur web indépendant. Création de sites vitrines modernes, portfolio, projets et contact."
+>
+  <meta name="author" content="David Bairet">
+  <meta name="contact" content="contact@les-sites-de-david.fr">
+
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,6 +22,7 @@
   <header class="header">
     <div class="container">
       <h1 class="logo">Les Sites de David</h1>
+
       <nav>
         <ul class="nav">
           <li><a href="#projects">Projets</a></li>
@@ -34,25 +40,19 @@
     <div class="container">
       <h2>Création de sites web modernes</h2>
       <p>Je crée des sites pour indépendants, artistes et créateurs.</p>
-      <a href="#projects" class="btn">Voir mes projets</a>
     </div>
   </section>
 
   <!-- PROJETS -->
   <section id="projects" class="section">
     <div class="container">
-      <h2>Mes projets</h2>
+      <h2>Mes derniers projets</h2>
 
       <div class="cards">
-
         <div class="card">
           <h3>Annuaire Tatoueurs</h3>
           <p>Plateforme pour trouver des artistes tatoueurs en France.</p>
-          <a
-            href="https://annuaire-tatoueurs.fr"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://annuaire-tatoueurs.fr" target="_blank" rel="noopener noreferrer">
             Voir le projet
           </a>
         </div>
@@ -60,11 +60,7 @@
         <div class="card">
           <h3>Pokédex</h3>
           <p>Application React utilisant une API Pokémon avec recherche et navigation.</p>
-          <a
-            href="https://davidbairet.github.io/pokedex-react-ts/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://davidbairet.github.io/pokedex-react-ts/" target="_blank" rel="noopener noreferrer">
             Voir le projet
           </a>
         </div>
@@ -72,15 +68,10 @@
         <div class="card">
           <h3>Mon GitHub</h3>
           <p>Retrouvez mes projets, mon code et mes expérimentations web.</p>
-          <a
-            href="https://github.com/DavidBairet"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/DavidBairet" target="_blank" rel="noopener noreferrer">
             Voir mon GitHub
           </a>
         </div>
-
       </div>
     </div>
   </section>
@@ -89,7 +80,6 @@
   <section id="services" class="section dark">
     <div class="container">
       <h2>Services</h2>
-
       <ul>
         <li>Création de site vitrine</li>
         <li>Optimisation SEO</li>
@@ -112,34 +102,60 @@
   <!-- GITHUB -->
   <section id="github" class="section dark">
     <div class="container">
-      <h2>Mon GitHub</h2>
+      <h2 class="title-with-icon">
+        <img src="images/icone-github.png" alt="GitHub">
+        <span>Mon GitHub</span>
+      </h2>
+
       <p>
         J’y partage mes projets web, mes exercices de développement
         et les applications que je construis au fil de mon parcours.
       </p>
-      <a
-        href="https://github.com/DavidBairet"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn"
-      >
-        Visiter mon GitHub
-      </a>
+
+      <p>
+        <a href="https://github.com/DavidBairet" target="_blank" rel="noopener noreferrer">
+          Accéder à mon profil GitHub
+        </a>
+      </p>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact" class="section">
     <div class="container">
-      <h2>Contact</h2>
+      <h2 class="title-with-icon">
+        <img src="images/icone-mail.png" alt="Email">
+        <span>Contact</span>
+      </h2>
+
       <p>Tu peux me contacter directement :</p>
-      <a href="mailto:TON_EMAIL" class="btn">Envoyer un email</a>
+
+      <p>
+        <a href="mailto:contact@les-sites-de-david.fr">
+          contact@les-sites-de-david.fr
+        </a>
+      </p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2026 Les Sites de David</p>
+    <p class="footer-copy">© 2026 Les Sites de David</p>
+
+    <div class="footer-socials">
+      <a href="https://github.com/DavidBairet" target="_blank" rel="noopener noreferrer">
+        <img src="images/icone-github.png" alt="GitHub">
+      </a>
+      <a href="mailto:contact@les-sites-de-david.fr">
+        <img src="images/icone-mail.png" alt="Email">
+      </a>
+    </div>
+
+    <div class="footer-links">
+      <a href="mentions-legales.html">Mentions légales</a>
+      <span>•</span>
+      <a href="confidentialite.html">Confidentialité</a>
+    </div>
   </footer>
 
   <script src="script.js"></script>
