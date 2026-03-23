@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
   <!-- HEADER -->
@@ -28,10 +27,11 @@
       </h1>
 
       <nav>
-        <ul class="nav">   
-        <li><a href="#projects">Projets</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="devis.html" class="nav-devis">Devis</a></li>
+        <ul class="nav">
+          <li><a href="#projects">Projets</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="devis.html" class="nav-devis">Devis</a></li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -40,9 +40,9 @@
   <section class="hero">
     <div class="hero-overlay">
       <h2 class="hero-title">Création de sites web modernes</h2>
-     <p class="hero-text">
-  Attire plus de clients avec un site moderne, rapide et bien référencé sur Google.
-</p>
+      <p class="hero-text">
+        Attire plus de clients avec un site moderne, rapide et bien référencé sur Google.
+      </p>
       <a href="devis.html" class="cta-btn">Demander un devis</a>
     </div>
   </section>
@@ -263,6 +263,20 @@
       </a>
     </div>
   </footer>
+
+  <!-- BANNIÈRE COOKIES -->
+  <div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__content">
+      <p>
+        Ce site utilise des cookies pour mesurer l’audience et améliorer l’expérience utilisateur.
+        <a href="confidentialite.html">En savoir plus</a>
+      </p>
+      <div class="cookie-banner__actions">
+        <button id="cookie-refuse" type="button" class="cookie-btn cookie-btn--secondary">Refuser</button>
+        <button id="cookie-accept" type="button" class="cookie-btn cookie-btn--primary">Accepter</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
