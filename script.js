@@ -68,12 +68,10 @@ const acceptBtn = document.getElementById("cookie-accept");
 const refuseBtn = document.getElementById("cookie-refuse");
 
 const COOKIE_KEY = "lsd-cookie-consent";
-
-// 👉 si tu ajoutes Google Analytics plus tard
-const GA_ID = "G-XXXXXXXXXX";
+const GA_ID = "G-L1SG52EC8Z";
 
 function loadAnalytics() {
-  if (!GA_ID || GA_ID === "G-XXXXXXXXXX") return;
+  if (!GA_ID) return;
 
   if (window.__gaLoaded) return;
   window.__gaLoaded = true;
