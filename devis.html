@@ -4,29 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Demande de devis | Les Sites de David</title>
+  <meta
+    name="description"
+    content="Demande de devis pour la création de votre site web avec Les Sites de David."
+  >
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <header class="header">
     <div class="container">
-      <h1 class="logo">Les Sites de David</h1>
+
+      <h1 class="logo">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Les Sites de David">
+          Les Sites de David
+        </a>
+      </h1>
+
       <nav>
-        <ul class="nav">
-          <li><a href="index.html">Accueil</a></li>
-          
-         
-        </ul>
+        <a href="index.html">Accueil</a>
       </nav>
+
     </div>
   </header>
 
   <main class="section">
     <div class="container">
       <h2>Demande de devis</h2>
+
       <p>
         Parlez-moi de votre projet. Je vous répondrai avec une proposition adaptée
         à vos besoins.
+      </p>
+
+      <p class="form-info">
+        📩 Réponse sous 24h • Devis gratuit et sans engagement
       </p>
 
       <form id="devis-form" action="send-devis.php" method="POST" class="devis-form">
@@ -69,14 +84,19 @@
 
         <div class="form-group">
           <label for="message">Décris ton projet *</label>
-          <textarea id="message" name="message" rows="8" required></textarea>
+          <textarea
+            id="message"
+            name="message"
+            rows="8"
+            placeholder="Explique-moi ton projet : type de site, activité, objectifs, inspirations, délais…"
+            required
+          ></textarea>
         </div>
 
         <div class="form-group checkbox-group">
           <label class="checkbox-label">
             <input type="checkbox" name="consent" required>
-            J’accepte que mes informations soient utilisées pour être recontacté
-            dans le cadre de ma demande de devis.
+            J’accepte que mes informations soient utilisées pour être recontacté dans le cadre de ma demande de devis.
           </label>
         </div>
 
@@ -85,9 +105,16 @@
         <button type="submit" class="cta-btn">
           Envoyer la demande
         </button>
-        <p id="form-message" style="display:none; text-align:center; margin-top:15px;">
-  ✅ Votre demande a bien été envoyée !
-</p>
+
+        <p class="form-delay">⏱️ Réponse rapide sous 24h</p>
+
+        <p class="form-secure">
+          🔒 Vos informations restent confidentielles
+        </p>
+
+        <p id="form-message" class="form-message" style="display:none;">
+          ✅ Votre demande a bien été envoyée !
+        </p>
       </form>
     </div>
   </main>

@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 function clean($data) {
-    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+    return trim($data);
 }
 
 $name = isset($_POST["name"]) ? clean($_POST["name"]) : "";
@@ -39,15 +39,15 @@ $body .= "Type de demande : " . $service . "\n";
 $body .= "Budget estimé : " . $budget . "\n\n";
 $body .= "Message du client :\n" . $message . "\n";
 
-$headers = "From: contact@les-sites-de-david.fr\r\n";
+$headers = "From: Les Sites de David <contact@les-sites-de-david.fr>\r\n";
 $headers .= "Reply-To: " . $email . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 if (mail($to, $subject, $body, $headers)) {
-    http_response_code(200);
-    echo "OK";
+    header("Location: merci.html");
+    exit;
 } else {
     http_response_code(500);
-    echo "ERREUR";
+    echo "Une erreur est survenue lors de l'envoi du message.";
 }
 ?>
