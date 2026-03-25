@@ -1,46 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Mentions légales - Les Sites de David</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <a href="index.html" class="back-btn">← Retour au site</a>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentions légales | Les Sites de David</title>
+  <meta
+    name="description"
+    content="Mentions légales du site Les Sites de David."
+  />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="legal-page">
 
-<section class="section">
-  <div class="container">
-    <h1>Mentions légales</h1>
+  <header class="legal-header">
+    <div class="container">
+      <a href="index.html" class="back-btn">← Retour au site</a>
+      <h1>Mentions légales</h1>
+      <p class="legal-intro">
+        Informations légales relatives au site Les Sites de David.
+      </p>
+    </div>
+  </header>
 
-    <h2>Éditeur du site</h2>
-    <p>
-      David Bairet<br>
-      Les Sites de David<br>
-      Email : contact@les-sites-de-david.fr
-    </p>
+  <main class="section">
+    <div class="container legal-card">
 
-    <h2>Hébergement</h2>
-    <p>
-      Le site est hébergé par :<br>
-      OVHcloud<br>
-      2 rue Kellermann<br>
-      59100 Roubaix - France
-    </p>
+      <section class="legal-block">
+        <h2>Éditeur du site</h2>
+        <p>
+          <strong>David Bairet</strong><br>
+          <strong>Les Sites de David</strong><br>
+          Statut : Auto-entrepreneur<br>
+          SIRET : 99110364900018<br>
+          Adresse : 2220 route de Bordeaux, 47600 Nérac, France<br>
+          Email : contact@les-sites-de-david.fr
+        </p>
+      </section>
 
-    <h2>Propriété intellectuelle</h2>
-    <p>
-      L’ensemble du contenu du site (textes, images, logo, etc.) est la propriété de
-      David Bairet, sauf mention contraire.
-    </p>
+      <section class="legal-block">
+        <h2>Directeur de la publication</h2>
+        <p>
+          David Bairet
+        </p>
+      </section>
 
-    <h2>Responsabilité</h2>
-    <p>
-      L’éditeur du site ne peut être tenu responsable des dommages directs ou indirects
-      liés à l’utilisation du site.
-    </p>
-  </div>
-</section>
+      <section class="legal-block">
+       <h2>Hébergement</h2>
+       <p>
+         Le site est hébergé par :<br>
+         IONOS SARL<br>
+         7 place de la Gare<br>
+         BP 70109<br>
+         57200 Sarreguemines Cedex<br>
+         France<br>
+          Site web : https://www.ionos.fr
+       </p>
+      </section>
+
+      <section class="legal-block">
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L’ensemble des contenus présents sur ce site, notamment les textes,
+          images, illustrations, logos, éléments graphiques, structure et mise
+          en page, est protégé par le droit de la propriété intellectuelle.
+        </p>
+        <p>
+          Sauf mention contraire, ces contenus sont la propriété exclusive de
+          David Bairet. Toute reproduction, représentation, diffusion,
+          adaptation, modification ou exploitation, totale ou partielle, sans
+          autorisation écrite préalable, est interdite.
+        </p>
+      </section>
+
+      <section class="legal-block">
+        <h2>Responsabilité</h2>
+        <p>
+          L’éditeur du site s’efforce de fournir des informations aussi
+          précises que possible. Toutefois, il ne pourra être tenu responsable
+          des omissions, inexactitudes ou carences dans la mise à jour des
+          contenus.
+        </p>
+        <p>
+          L’utilisateur du site reconnaît utiliser les informations disponibles
+          sous sa responsabilité exclusive.
+        </p>
+      </section>
+
+      <section class="legal-block">
+        <h2>Liens externes</h2>
+        <p>
+          Le site peut contenir des liens vers des sites tiers. L’éditeur ne
+          peut être tenu responsable du contenu, de la disponibilité ou des
+          pratiques de ces sites externes.
+        </p>
+      </section>
+
+      <section class="legal-block">
+        <h2>Contact</h2>
+        <p>
+          Pour toute question concernant le site, vous pouvez écrire à :
+          <a href="mailto:contact@les-sites-de-david.fr">contact@les-sites-de-david.fr</a>
+        </p>
+      </section>
+
+    </div>
+  </main>
 
 </body>
 </html>
+
+.legal-block h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.legal-block p {
+  margin: 0 0 12px;
+  line-height: 1.7;
+}
+
+.legal-block p:last-child {
+  margin-bottom: 0;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.1);
+}
+
+@media (max-width: 768px) {
+  .legal-header {
+    padding: 100px 0 20px;
+  }
+
+  .legal-block {
+    padding: 18px;
+  }
+}
