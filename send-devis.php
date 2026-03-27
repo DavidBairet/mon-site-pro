@@ -1,104 +1,167 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: devis.html");
+declare(strict_types=1);
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: devis.html');
     exit;
 }
 
-// ==============================
-// 🔒 VÉRIFICATION TURNSTILE
-// ==============================
+/*
+|--------------------------------------------------------------------------
+| Configuration
+|--------------------------------------------------------------------------
+*/
 
-$secret = "0x4AAAAAACvAS3aNXHyeYZEZ"; 
+$turnstileSecret = '0x4AAAAAACvASwJmwVFFgPeJ_Y-rsLibLE8';
+$recipientEmail = 'contact@les-sites-de-david.fr';
+$siteName = 'Les Sites de David';
+$redirectSuccess = 'merci.html';
+$redirectError = 'devis.html?error=1';
 
-$token = $_POST["cf-turnstile-response"] ?? "";
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
 
-if (empty($token)) {
-    http_response_code(400);
-    echo "Captcha invalide.";
+function clean_input(?string $value): string
+{
+    return trim((string) $value);
+}
+
+function fail(string $message, int $statusCode = 400): void
+{
+    http_response_code($statusCode);
+    echo $message;
     exit;
 }
 
-// Vérification avec Cloudflare
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://challenges.cloudflare.com/turnstile/v0/siteverify");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-    "secret" => $secret,
-    "response" => $token,
-    "remoteip" => $_SERVER["REMOTE_ADDR"]
-]));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+function verify_turnstile(string $secret, string $token, string $remoteIp = ''): bool
+{
+    if ($token === '') {
+        return false;
+    }
 
-$response = curl_exec($ch);
-curl_close($ch);
+    $postFields = [
+        'secret' => $secret,
+        'response' => $token,
+    ];
 
-$result = json_decode($response, true);
+    if ($remoteIp !== '') {
+        $postFields['remoteip'] = $remoteIp;
+    }
 
-if (!$result["success"]) {
-    http_response_code(400);
-    echo "Échec de vérification captcha.";
-    exit;
+    $ch = curl_init();
+
+    curl_setopt_array($ch, [
+        CURLOPT_URL => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($postFields),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        curl_close($ch);
+        return false;
+    }
+
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200) {
+        return false;
+    }
+
+    $result = json_decode($response, true);
+
+    return is_array($result) && !empty($result['success']);
 }
 
-// ==============================
-// 🧼 SANITIZE
-// ==============================
+/*
+|--------------------------------------------------------------------------
+| Récupération des données
+|--------------------------------------------------------------------------
+*/
 
-function clean($data) {
-    return trim($data);
-}
+$name = clean_input($_POST['name'] ?? '');
+$email = clean_input($_POST['email'] ?? '');
+$phone = clean_input($_POST['phone'] ?? '');
+$service = clean_input($_POST['service'] ?? '');
+$budget = clean_input($_POST['budget'] ?? '');
+$message = clean_input($_POST['message'] ?? '');
+$consent = $_POST['consent'] ?? '';
+$turnstileToken = clean_input($_POST['cf-turnstile-response'] ?? '');
 
-$name = clean($_POST["name"] ?? "");
-$email = clean($_POST["email"] ?? "");
-$phone = clean($_POST["phone"] ?? "");
-$service = clean($_POST["service"] ?? "");
-$budget = clean($_POST["budget"] ?? "");
-$message = clean($_POST["message"] ?? "");
-$consent = $_POST["consent"] ?? "";
+/*
+|--------------------------------------------------------------------------
+| Validation
+|--------------------------------------------------------------------------
+*/
 
-// ==============================
-// ✅ VALIDATION
-// ==============================
-
-if (empty($name) || empty($email) || empty($service) || empty($message) || empty($consent)) {
-    http_response_code(400);
-    echo "Merci de remplir tous les champs obligatoires.";
-    exit;
+if ($name === '' || $email === '' || $service === '' || $message === '' || empty($consent)) {
+    fail('Merci de remplir tous les champs obligatoires.');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo "Adresse e-mail invalide.";
+    fail('Adresse e-mail invalide.');
+}
+
+if (!verify_turnstile($turnstileSecret, $turnstileToken, $_SERVER['REMOTE_ADDR'] ?? '')) {
+    fail('Échec de vérification captcha.');
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sécurisation supplémentaire pour les headers e-mail
+|--------------------------------------------------------------------------
+*/
+
+$safeName = str_replace(["\r", "\n"], ' ', $name);
+$safeEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
+$safePhone = str_replace(["\r", "\n"], ' ', $phone);
+$safeService = str_replace(["\r", "\n"], ' ', $service);
+$safeBudget = str_replace(["\r", "\n"], ' ', $budget);
+
+/*
+|--------------------------------------------------------------------------
+| Construction du mail
+|--------------------------------------------------------------------------
+*/
+
+$subject = 'Nouvelle demande de devis - ' . $safeName;
+
+$body = "";
+$body .= "Nouvelle demande de devis reçue depuis les-sites-de-david.fr\n\n";
+$body .= "Nom : " . $safeName . "\n";
+$body .= "Email : " . $safeEmail . "\n";
+$body .= "Téléphone : " . ($safePhone !== '' ? $safePhone : 'Non renseigné') . "\n";
+$body .= "Service : " . $safeService . "\n";
+$body .= "Budget : " . ($safeBudget !== '' ? $safeBudget : 'Non renseigné') . "\n\n";
+$body .= "Message :\n";
+$body .= $message . "\n";
+
+$headers = [];
+$headers[] = 'From: ' . $siteName . ' <contact@les-sites-de-david.fr>';
+$headers[] = 'Reply-To: ' . $safeEmail;
+$headers[] = 'MIME-Version: 1.0';
+$headers[] = 'Content-Type: text/plain; charset=UTF-8';
+
+$headersString = implode("\r\n", $headers);
+
+/*
+|--------------------------------------------------------------------------
+| Envoi
+|--------------------------------------------------------------------------
+*/
+
+$mailSent = mail($recipientEmail, $subject, $body, $headersString);
+
+if ($mailSent) {
+    header('Location: ' . $redirectSuccess);
     exit;
 }
 
-// ==============================
-// 📧 EMAIL
-// ==============================
-
-$to = "contact@les-sites-de-david.fr";
-$subject = "Nouvelle demande de devis - " . $name;
-
-$body = "Nouvelle demande de devis :\n\n";
-$body .= "Nom : $name\n";
-$body .= "Email : $email\n";
-$body .= "Téléphone : $phone\n";
-$body .= "Service : $service\n";
-$body .= "Budget : $budget\n\n";
-$body .= "Message :\n$message\n";
-
-$headers = "From: Les Sites de David <contact@les-sites-de-david.fr>\r\n";
-$headers .= "Reply-To: $email\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-// ==============================
-// 🚀 ENVOI
-// ==============================
-
-if (mail($to, $subject, $body, $headers)) {
-    header("Location: merci.html");
-    exit;
-} else {
-    http_response_code(500);
-    echo "Erreur lors de l'envoi.";
-}
+fail("Erreur lors de l'envoi du message.", 500);
