@@ -8,11 +8,57 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 /*
 |--------------------------------------------------------------------------
+| Chargement simple du .env
+|--------------------------------------------------------------------------
+*/
+
+function load_env(string $path): array
+{
+    if (!is_readable($path)) {
+        return [];
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    if ($lines === false) {
+        return [];
+    }
+
+    $env = [];
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+
+        if ($line === '' || str_starts_with($line, '#')) {
+            continue;
+        }
+
+        $parts = explode('=', $line, 2);
+
+        if (count($parts) !== 2) {
+            continue;
+        }
+
+        $key = trim($parts[0]);
+        $value = trim($parts[1]);
+
+        $value = trim($value, "\"'");
+
+        $env[$key] = $value;
+    }
+
+    return $env;
+}
+
+$env = load_env(__DIR__ . '/.env');
+
+/*
+|--------------------------------------------------------------------------
 | Configuration
 |--------------------------------------------------------------------------
 */
 
-$turnstileSecret = '0x4AAAAAACvASwJmwVFFgPeJ_Y-rsLibLE8';
+$turnstileSecret = $env['SECRET_KEY'] ?? '';
 $recipientEmail = 'contact@les-sites-de-david.fr';
 $siteName = 'Les Sites de David';
 $redirectSuccess = 'merci.html';
@@ -38,7 +84,7 @@ function fail(string $message, int $statusCode = 400): void
 
 function verify_turnstile(string $secret, string $token, string $remoteIp = ''): bool
 {
-    if ($token === '') {
+    if ($secret === '' || $token === '') {
         return false;
     }
 
@@ -100,6 +146,10 @@ $turnstileToken = clean_input($_POST['cf-turnstile-response'] ?? '');
 | Validation
 |--------------------------------------------------------------------------
 */
+
+if ($turnstileSecret === '') {
+    fail('Configuration serveur manquante.', 500);
+}
 
 if ($name === '' || $email === '' || $service === '' || $message === '' || empty($consent)) {
     fail('Merci de remplir tous les champs obligatoires.');
