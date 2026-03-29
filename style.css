@@ -627,3 +627,14 @@ a:hover {
   background: #ffffff;
   color: #000000;
 }
+.price-note {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+
+.price-maintenance {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 4px;
+}
