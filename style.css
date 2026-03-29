@@ -604,3 +604,13 @@ a:hover {
     flex: 1;
   }
 }
+/* FIX SELECT (menu déroulant visible) */
+.form-group select {
+  background: var(--bg-card);
+  color: #ffffff;
+}
+
+.form-group select option {
+  background: var(--bg-card);
+  color: #ffffff;
+}
