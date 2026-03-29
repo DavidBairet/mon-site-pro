@@ -604,13 +604,26 @@ a:hover {
     flex: 1;
   }
 }
-/* FIX SELECT (menu déroulant visible) */
+/* FIX SELECT */
 .form-group select {
-  background: var(--bg-card);
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  font: inherit;
+  background: rgba(255, 255, 255, 0.06);
   color: #ffffff;
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(227, 82, 198, 0.15);
 }
 
 .form-group select option {
-  background: var(--bg-card);
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
 }
